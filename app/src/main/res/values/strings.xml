@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">FinalMovil</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string-array name="user_types">
+        <item>Coordinador</item>
+        <item>Profesor</item>
+        <item>Estudiante</item>
+    </string-array>
+    <string name="title_activity_sign_up">SignUp</string>
+    <string name="title_activity_home">Home</string>
+    <string name="title_activity_classes">Classes</string>
+
+
+</resources>
