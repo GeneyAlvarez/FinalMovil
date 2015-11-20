@@ -15,26 +15,29 @@ import java.util.List;
  */
 public class ViewAdapter extends RecyclerView.Adapter<ViewAdapter.MyViewHolder> {
 
+    private final Context context;
     private LayoutInflater inflater;
-    private List<Information> data= Collections.emptyList();
+    private List<Information> data = Collections.emptyList();
+    private RecyclerClickListner mRecyclerClickListner;
 
     public ViewAdapter(Context context,List<Information> data){
-        inflater=LayoutInflater.from(context);
-        this.data=data;
+        inflater = LayoutInflater.from(context);
+        this.context = context;
+        this.data = data;
     }
 
-
     @Override
-    public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view=inflater.inflate(R.layout.custom_row,parent,false);
-        MyViewHolder holder=new MyViewHolder(view);
+    public MyViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
+        View view = inflater.inflate(R.layout.custom_row, viewGroup, false);
+        MyViewHolder holder = new MyViewHolder(view);
         return holder;
+
     }
 
     @Override
-    public void onBindViewHolder(MyViewHolder holder, int position) {
-        Information information=data.get(position);
-        holder.tv.setText(information.title);
+    public void onBindViewHolder(MyViewHolder myViewHolder, int i) {
+        Information information = data.get(i);
+        myViewHolder.tv.setText(information.title);
 
     }
 
@@ -42,13 +45,30 @@ public class ViewAdapter extends RecyclerView.Adapter<ViewAdapter.MyViewHolder> 
     public int getItemCount() {
         return data.size();
     }
-    class MyViewHolder extends RecyclerView.ViewHolder{
+
+    public void setRecyclerClickListner(RecyclerClickListner recyclerClickListner){
+        mRecyclerClickListner = recyclerClickListner;
+    }
+
+    class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private TextView tv;
 
-        public MyViewHolder(View itemView){
+        public MyViewHolder(View itemView) {
             super(itemView);
-            tv=(TextView)itemView.findViewById(R.id.listText);
+            itemView.setOnClickListener(this);
+            tv = (TextView) itemView.findViewById(R.id.listText);
+        }
+
+        @Override
+        public void onClick(View v) {
+            if (mRecyclerClickListner != null) {
+                mRecyclerClickListner.itemClick(v, getPosition());
+            }
         }
     }
 
+    public interface RecyclerClickListner
+    {
+        public void itemClick(View view, int position);
+    }
 }

@@ -11,6 +11,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -27,11 +28,13 @@ import org.json.JSONException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Classes extends AppCompatActivity {
+public class Classes extends AppCompatActivity implements ViewAdapter.RecyclerClickListner {
 
     //Datos de usuario
     String user;
     String type;
+
+    List<Information> data;
 
     boolean sepuedecrearcurso ;
 
@@ -53,33 +56,47 @@ public class Classes extends AppCompatActivity {
     private ViewAdapter viewAdapter;
     private RecyclerView mRecyclerView;
 
+    public static final String MyPREFERENCES2 = "MyPrefs2" ;
+    public static final String CLASS = "classKey";
+    public static final String IDCLASS = "idclassKey";
+    SharedPreferences sharedpreferences2;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_classes);
+        sharedpreferences2 = getSharedPreferences(MyPREFERENCES2, Context.MODE_PRIVATE);
+
         list=new ArrayList<>();
         enable="(Abierto)";
+        mRecyclerView=(RecyclerView)findViewById(R.id.recycle);
         SharedPreferences settings = getSharedPreferences("MyPrefs", MODE_PRIVATE);
         user = settings.getString("userKey", "");
         type = settings.getString("typeKey", "");
         database = settings.getString("dbKey", "");
         boton=(Button)findViewById(R.id.button8);
 
-        mRecyclerView=(RecyclerView)findViewById(R.id.recycle);
 
         switch(type){
             case "1":
                 boton.setVisibility(View.INVISIBLE);
                 break;
             case "2":
+                boton.setVisibility(View.VISIBLE);
                 boton.setText("Agregar Curso");
                 break;
             case "3":
-                boton.setText("Buscar Curso");
+                boton.setVisibility(View.VISIBLE);
+                boton.setText("Inscribir Curso");
                 break;
         }
-
+        data=new ArrayList<>();
         new GetData().execute();
+        viewAdapter= new ViewAdapter(this,data);
+        viewAdapter.setRecyclerClickListner(this);
+        mRecyclerView.setAdapter(viewAdapter);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
 
     }
@@ -121,6 +138,28 @@ public class Classes extends AppCompatActivity {
         AlertDialog alertDialog = alertDialogBuilder.create();
         alertDialog.show();
 
+    }
+
+
+    @Override
+    public void itemClick(View view, int position) {
+        if(!type.equals("3")){
+            String[] busqueda=values.get(position).toString().split("\n");
+            busqueda=busqueda[0].split(" ");
+
+            SharedPreferences.Editor editor = sharedpreferences2.edit();
+            editor.putString(CLASS, busqueda[0]);
+            editor.putString(IDCLASS, busqueda[1]);
+            editor.commit();
+
+            Toast toast1 = Toast.makeText(getApplicationContext(), "Curso "+busqueda[0]+" "+busqueda[1], Toast.LENGTH_SHORT);
+            toast1.show();
+
+            Intent i = new Intent(this, Students.class);
+            startActivity(i);
+        }else{
+            //es alumno y ve directamente sus notas
+        }
     }
 
     private class Register extends AsyncTask<Void, Void, Void> {
@@ -264,7 +303,6 @@ public class Classes extends AppCompatActivity {
         protected Void doInBackground(Void... params) {
             values = new ArrayList<String>();
             values2 = new ArrayList<String>();
-
             switch(type){
                 case "1":
                     try {
@@ -341,20 +379,13 @@ public class Classes extends AppCompatActivity {
         protected void onPostExecute(Void result) {
             // Locate the listview in listview_main.xml
             // Pass the results into ListViewAdapter.java
-
-            List<Information> data = new ArrayList<>();
             values.addAll(values2);
-
+            data.clear();
             for (int i=0; i<values.size();i++){
-
                 Information info = new Information(values.get(i).toString());
-                data.add(info);
+                    data.add(info);
             }
-
-            viewAdapter=new ViewAdapter(Classes.this, data);
-            mRecyclerView.setAdapter(viewAdapter);
-            mRecyclerView.setLayoutManager(new LinearLayoutManager(Classes.this));
-            //viewAdapter.setRecyclerClickListener(this);
+            viewAdapter.notifyDataSetChanged();
             pDialog.dismiss();
         }
     }

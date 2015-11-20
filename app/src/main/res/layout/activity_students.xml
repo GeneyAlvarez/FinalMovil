@@ -5,34 +5,36 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:background="@drawable/background"
-    tools:context="com.example.geneya.finalmovil.Classes">
+    tools:context="com.example.geneya.finalmovil.Students">
 
     <TextView android:gravity="center"
-        android:text="Mis Cursos"
+        android:text="Estudiantes"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textAlignment="center"
         android:textSize="35dp"
-        android:id="@+id/textView9" />
+        android:id="@+id/title55"/>
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="+"
-        android:textSize="25dp"
+        android:textSize="20dp"
         android:style="@+style/btnStyle"
-        android:id="@+id/button8"
-        android:layout_below="@+id/textView9"
-        android:layout_centerHorizontal="true"
-        android:onClick="EditClass"/>
+        android:id="@+id/button80"
+        android:layout_below="@+id/title55"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:onClick="Inhabilitar"/>
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/recycle"
+        android:id="@+id/recycle2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:layout_below="@+id/button8">
+        android:layout_below="@+id/button80">
     </android.support.v7.widget.RecyclerView>
+
 
 </RelativeLayout>

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
+    android:background="@drawable/background"
     android:layout_height="match_parent">
 
     <TextView
@@ -46,6 +47,7 @@
         android:layout_height="wrap_content"
         android:text="Cursos"
         android:id="@+id/button6"
+        android:style="@+style/btnStyle"
         android:layout_below="@+id/textView8"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
@@ -56,6 +58,7 @@
         android:layout_height="wrap_content"
         android:text="Cerrar Sesion"
         android:id="@+id/button7"
+        android:style="@+style/btnStyle"
         android:layout_marginTop="20dp"
         android:layout_below="@+id/button6"
         android:layout_centerHorizontal="true"

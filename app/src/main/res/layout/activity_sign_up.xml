@@ -4,10 +4,12 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
+    android:background="@drawable/background"
     tools:context="com.example.geneya.finalmovil.SignUp"
     android:orientation="vertical">
 
     <TextView
+
         android:text="Registro"
         android:gravity="center"
         android:layout_width="match_parent"
@@ -71,6 +73,7 @@
         android:layout_height="wrap_content"
         android:text="Confirmar"
         android:id="@+id/button3"
+        android:style="@+style/btnStyle"
         android:onClick="Check"
         android:layout_marginTop="25dp"
         android:layout_below="@+id/editText5"
