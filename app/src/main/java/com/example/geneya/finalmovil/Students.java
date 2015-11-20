@@ -33,6 +33,7 @@ public class Students extends AppCompatActivity implements ViewAdapter.RecyclerC
     String type;
     String classname;
     String classid;
+    boolean bool;
 
     List<ParseObject> ob;
 
@@ -67,7 +68,7 @@ public class Students extends AppCompatActivity implements ViewAdapter.RecyclerC
                 break;
             case "2":
                 boton.setVisibility(View.VISIBLE);
-                boton.setText("Inhabilitar Curso");
+                boton.setText("Habilitar/Inhabilitar");
                 break;
         }
 
@@ -153,19 +154,21 @@ public class Students extends AppCompatActivity implements ViewAdapter.RecyclerC
     }
 
     private class SenData extends AsyncTask<Void,Void,Void>{
+        @Override
         protected Void doInBackground(Void... arg0){
 
             try {
                 ParseQuery<ParseObject> query = new ParseQuery<ParseObject>("classes");
                 ob = query.find();
                 for (ParseObject dato : ob) {
-
                     if (dato.get("classname").equals(classname) && dato.get("classid").equals(classid)) {
                         if(dato.get("enabled").equals("(Abierto)")) {
-                            dato.put("(Cerrado)", "");
+                            dato.put("enabled", "(Cerrado)");
+                            bool=false;
                             dato.saveInBackground();
                         }else{
-                            dato.put("(Abierto)", "");
+                            dato.put("enabled", "(Abierto)");
+                            bool=true;
                             dato.saveInBackground();
                         }
                     }
@@ -175,6 +178,17 @@ public class Students extends AppCompatActivity implements ViewAdapter.RecyclerC
             }
             return null;
         }
+        @Override
+        protected void onPostExecute(Void result) {
+            if(bool){
+                Toast toast1 = Toast.makeText(getApplicationContext(), "Abierto exitosamente", Toast.LENGTH_SHORT);toast1.show();
+            }else{
+                Toast toast1 = Toast.makeText(getApplicationContext(), "Cerrado exitosamente", Toast.LENGTH_SHORT);toast1.show();
+            }
+
+        }
+
+
     }
 
 

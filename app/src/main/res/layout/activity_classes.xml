@@ -20,7 +20,7 @@
         android:layout_height="wrap_content"
         android:text="+"
         android:textSize="25dp"
-        android:style="@+style/btnStyle"
+        style="@style/btnStyle"
         android:id="@+id/button8"
         android:layout_below="@+id/textView9"
         android:layout_centerHorizontal="true"

@@ -73,7 +73,7 @@
         android:layout_height="wrap_content"
         android:text="Confirmar"
         android:id="@+id/button3"
-        android:style="@+style/btnStyle"
+        style="@style/btnStyle"
         android:onClick="Check"
         android:layout_marginTop="25dp"
         android:layout_below="@+id/editText5"
